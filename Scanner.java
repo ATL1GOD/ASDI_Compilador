@@ -18,4 +18,14 @@ public class Scanner {
     palabrasReservadas.put("distinct", TipoToken.DISTINCT);
   }
 
+  public Scanner(String source) {
+    this.source = source + " ";
+  }
+
+  public List<Token> scanTokens() throws Exception{
+    int estado = 0;
+    char c = 0;
+    String lexema = "";
+    int inLex = 0;
+
 }
