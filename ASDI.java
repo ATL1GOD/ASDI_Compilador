@@ -45,5 +45,48 @@ public class ASDI {
                 { "T2", "", "", "", "", "", "T2 -> id T3", "", "" },
                 { "T3", "", "", "", "", "T3 -> E", "T3 -> id", "", "T3 -> E" }
         };
+        analizar(tokens, tabla);
+        if (A.tipo == TipoToken.EOF && !hayErrores) {
+            System.out.println("Consulta correcta");
+            return true;
+        } else {
+            System.out.println("Se encontraron errores");
+        }
+        return false;
+    }
+
+    private void analizar(List<Token> tokens, String[][] tabla) {
+        pila.clear();
+
+        int ip = 0;
+        pila.push("$");
+        pila.push("Q");
+
+        strPila = pila.lastElement();
+        A = tokens.get(ip);
+        strLex = A.lexema;
+
+            while (!strPila.equals("$")) {
+            if(A.tipo == TipoToken.IDENTIFICADOR){ //Para identificadores
+                strLex = "id";
+            }
+                
+                if (strPila.hashCode() == strLex.hashCode()) {
+                pila.pop();
+                ip++;
+                A = tokens.get(ip);
+                strLex = A.lexema;
+            } else if (analisis.esTerminal(strPila, tabla)) {
+                System.out.println("Error. " + (ip + 1) + ": Simbolo terminal no esperado...");
+                hayErrores = true;
+                break;
+            } else if (analisis.validar(strPila, strLex, tabla) == "") {
+                System.out.println("Error. " + (ip + 1) + ": Producción no válida.");
+                hayErrores = true;
+                break;
+                    } 
+            strPila = pila.lastElement();
+        }
+
     }
 }
