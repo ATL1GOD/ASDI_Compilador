@@ -3,7 +3,7 @@ import java.util.*;
 import java.util.List;
 import java.util.Stack;*/
 
-public class ASDI {
+public class ASDI implements Parser {
 
     private boolean hayErrores = false; // 0 , 1 false =0
     private final List<Token> tokens; /*

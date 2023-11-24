@@ -48,8 +48,9 @@ public class Interprete {
 
   private static void ejecutar(String source) {
     Scanner scanner = new Scanner(source);
-    /*
-     * Modificar esta parte para agregar los nuevos elementos del parser y el ASDI
-     */
+    List<Token> tokens = scanner.scanTokens();
+
+    Parser parser = new ASDI(tokens);
+    parser.parse();
   }
 }
