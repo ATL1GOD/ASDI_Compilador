@@ -1,2 +1,2 @@
 # ASDI_Compilador
-Analizar Sintáctico Descendente Iterativo usando la gramática LR
+Analizar Sintáctico Descendente Iterativo usando la gramática LL
