@@ -13,11 +13,11 @@ public class ASDI {
                                        * ------------Token 1 *
                                        * ------------Token 2 *
                                        ***********************/
-    ArrayList<String> tablaArrayList = new ArrayList<>(); /*
-                                                           * Una lista de cadenas que se utiliza
-                                                           * para almacenar las cadenas
-                                                           */
-    String tabla, strPila, strLex; /* Cadenas que guardan informacion y tokens */
+    ArrayList<String> produccionArrayList = new ArrayList<>(); /*
+                                                                * Una lista de cadenas que se utiliza
+                                                                * para almacenar las cadenas
+                                                                */
+    String produccion, strPila, strLex; /* Cadenas que guardan informacion y tokens */
     Token A; // Objeto tipo Token para guardar elementos del token
     Stack<String> pila = new Stack<>(); // una pila
     /*
@@ -31,7 +31,7 @@ public class ASDI {
     }
 
     public boolean parse() {
-        String[][] tabla = {
+        String[][] produccion = {
                 { "", "select", "from", "distinct", "*", ",", "id", ".", "$" },
                 { "Q", "Q -> select D from T", "", "", "", "", "", "", "" },
                 { "D", "", "", "D -> distinct P", "D -> P", "", "D -> P", "", "" },
@@ -45,7 +45,7 @@ public class ASDI {
                 { "T2", "", "", "", "", "", "T2 -> id T3", "", "" },
                 { "T3", "", "", "", "", "T3 -> E", "T3 -> id", "", "T3 -> E" }
         };
-        analizar(tokens, tabla);
+        analizar(tokens, produccion);
         if (A.tipo == TipoToken.EOF && !hayErrores) {
             System.out.println("Consulta correcta");
             return true;
@@ -55,7 +55,7 @@ public class ASDI {
         return false;
     }
 
-    private void analizar(List<Token> tokens, String[][] tabla) {
+    private void analizar(List<Token> tokens, String[][] produccion) {
         pila.clear();
 
         int ip = 0;
@@ -66,25 +66,25 @@ public class ASDI {
         A = tokens.get(ip);
         strLex = A.lexema;
 
-            while (!strPila.equals("$")) {
-            if(A.tipo == TipoToken.IDENTIFICADOR){ //Para identificadores
+        while (!strPila.equals("$")) {
+            if (A.tipo == TipoToken.IDENTIFICADOR) { // Para identificadores
                 strLex = "id";
             }
-                
-                if (strPila.hashCode() == strLex.hashCode()) {
+
+            if (strPila.hashCode() == strLex.hashCode()) {
                 pila.pop();
                 ip++;
                 A = tokens.get(ip);
                 strLex = A.lexema;
-            } else if (analisis.esTerminal(strPila, tabla)) {
+            } else if (analisis.esTerminal(strPila, produccion)) {
                 System.out.println("Error. " + (ip + 1) + ": Simbolo terminal no esperado...");
                 hayErrores = true;
                 break;
-            } else if (analisis.validar(strPila, strLex, tabla) == "") {
+            } else if (analisis.validar(strPila, strLex, produccion) == "") {
                 System.out.println("Error. " + (ip + 1) + ": Producción no válida.");
                 hayErrores = true;
                 break;
-                    } 
+            }
             strPila = pila.lastElement();
         }
 
