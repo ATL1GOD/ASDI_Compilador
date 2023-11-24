@@ -98,10 +98,13 @@ public class ASDI implements Parser {
                 System.out.println("Error. " + (ip + 1) + ": Simbolo terminal no esperado...");
                 hayErrores = true;
                 break;
-            } else if (Analisis.validar(strPila, strLex, tabla) == "") {
+            } else if (Analisis.validar(strPila, strLex, tabla).equals("")) {
                 System.out.println("Error. " + (ip + 1) + ": Producción no válida.");
                 hayErrores = true;
                 break;
+            }
+            else{
+                
             }
             strPila = pila.lastElement();
         }

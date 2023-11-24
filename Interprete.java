@@ -5,13 +5,12 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Scanner;
 
-public class Interprete {
+public class Interprete{
 
   static boolean existenErrores = false;
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException, Exception  {
     if (args.length > 1) {
       System.out.println("Uso correcto: Interprete [archivo.txt]");
       // condicional para error en el archivo de texto, nos ayudara a identificar como
@@ -25,7 +24,7 @@ public class Interprete {
     }
   }
 
-  private static void ejecutarArchivo(String path) throws IOException {
+  private static void ejecutarArchivo(String path) throws IOException, Exception  {
     byte[] bytes = Files.readAllBytes(Paths.get(path));
     ejecutar(new String(bytes, Charset.defaultCharset()));
     // Se indica que existe un error
@@ -33,7 +32,7 @@ public class Interprete {
       System.exit(65); // status (palabra por defecto):65
   }
 
-  private static void ejecutarPrompt() throws IOException {
+  private static void ejecutarPrompt() throws IOException, Exception {
     InputStreamReader input = new InputStreamReader(System.in);
     BufferedReader reader = new BufferedReader(input);
     for (;;) {
@@ -46,7 +45,7 @@ public class Interprete {
     }
   }
 
-  private static void ejecutar(String source) {
+  private static void ejecutar(String source) throws Exception {
     Scanner scanner = new Scanner(source);
     List<Token> tokens = scanner.scanTokens();
 
