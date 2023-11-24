@@ -57,12 +57,12 @@ public class ASDI {
     }
 
     private void analizar(List<Token> tokens, String[][] tabla) {
+        /*inicializamos la pila agregandole Q y $, creamos una variable ip para el recorrido de
+         * la pila*/
         pila.clear();
-
         int ip = 0;
         pila.push("$");
         pila.push("Q");
-
         strPila = pila.lastElement();
         A = tokens.get(ip);
         strLex = A.lexema;
@@ -70,6 +70,19 @@ public class ASDI {
             while (!strPila.equals("$")) {
             if(A.tipo == TipoToken.IDENTIFICADOR){ //Para identificadores
                 strLex = "id";
+                /*Recorrido simulado desde el bucle
+                 * Mientras strPila sea diferente a $ (cierto)
+                 * Si A(0).tipo = TipoToken IDENTIFICADOR
+                 * ---------pila
+                 * Q-> select ->posicion 1
+                 * $ -> posicion 0
+                 * ---------fin de pila
+                 * strPila=Q
+                 * A=tokens.get(0)
+                 * strLex=A.lexema del token 0
+                 * si A(0).tipo == tipotoken.identificador
+                 * strLex="id"
+                */
             }
                 
                 if (strPila.hashCode() == strLex.hashCode()) {
