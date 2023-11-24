@@ -1,10 +1,11 @@
-import java.util.ArrayList;
+import java.util.*;
+/*import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
+import java.util.Stack;*/
 
 public class ASDI {
 
-    private boolean Errores = false; // 0 , 1 false =0
+    private boolean hayErrores = false; // 0 , 1 false =0
     private final List<Token> tokens; /*
                                        * Una lista de tokens que se pasa al constructor, los tokens se
                                        * ya debieron ser procesados antes para mandar a llamar la lista unicamente
@@ -55,13 +56,16 @@ public class ASDI {
         return false;
     }
 
-    private void analizar(List<Token> tokens, String[][] produccion) {
+    private void analizar(List<Token> tokens, String[][] tabla) {
+        /*
+         * inicializamos la pila agregandole Q y $, creamos una variable ip para el
+         * recorrido de
+         * la pila
+         */
         pila.clear();
-
         int ip = 0;
         pila.push("$");
         pila.push("Q");
-
         strPila = pila.lastElement();
         A = tokens.get(ip);
         strLex = A.lexema;
@@ -69,6 +73,20 @@ public class ASDI {
         while (!strPila.equals("$")) {
             if (A.tipo == TipoToken.IDENTIFICADOR) { // Para identificadores
                 strLex = "id";
+                /*
+                 * Recorrido simulado desde el bucle
+                 * Mientras strPila sea diferente a $ (cierto)
+                 * Si A(0).tipo = TipoToken IDENTIFICADOR
+                 * ---------pila
+                 * Q-> select ->posicion 1
+                 * $ -> posicion 0
+                 * ---------fin de pila
+                 * strPila=Q
+                 * A=tokens.get(0)
+                 * strLex=A.lexema del token 0
+                 * si A(0).tipo == tipotoken.identificador
+                 * strLex="id"
+                 */
             }
 
             if (strPila.hashCode() == strLex.hashCode()) {
@@ -76,11 +94,11 @@ public class ASDI {
                 ip++;
                 A = tokens.get(ip);
                 strLex = A.lexema;
-            } else if (analisis.esTerminal(strPila, produccion)) {
+            } else if (Analisis.esTerminal(strPila, tabla)) {
                 System.out.println("Error. " + (ip + 1) + ": Simbolo terminal no esperado...");
                 hayErrores = true;
                 break;
-            } else if (analisis.validar(strPila, strLex, produccion) == "") {
+            } else if (Analisis.validar(strPila, strLex, tabla) == "") {
                 System.out.println("Error. " + (ip + 1) + ": Producción no válida.");
                 hayErrores = true;
                 break;
