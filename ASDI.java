@@ -104,7 +104,16 @@ public class ASDI implements Parser {
                 break;
             }
             else{
-                
+                produccion = Analisis.validar(strPila, strLex, tabla);
+                System.out.println(produccion);
+                pila.pop();
+                produccionArrayList = lectura.aArraylist(produccion); //archivo leer 
+                if(produccionArrayList.get(0).hashCode() != "E".hashCode()){ //Si no es E no mete la producción a la pila
+                    for (int i = produccionArrayList.size() - 1; i >= 0; i--) {
+                        pila.push(produccionArrayList.get(i));
+                    }
+                }
+                produccionArrayList.clear();
             }
             strPila = pila.lastElement();
         }
